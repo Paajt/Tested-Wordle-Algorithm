@@ -1,11 +1,17 @@
 export default function feedback(guessWord, answer) {
+    const guessWordClean = guessWord.replace(/\W/g, '').toUpperCase(); 
+    const answerClean = answer.replace(/\W/g, '').toUpperCase(); 
 
-    if (guessWord.length !== answer.length) {
+    if (guessWordClean.length !== answerClean.length) {
         throw new Error('Words must be the same length');
     }
 
-    guessWord = guessWord.toUpperCase();
-    answer = answer.toUpperCase();
+    const guessWordArray = guessWordClean.split('');
+    const answerArray = answerClean.split('');
 
-    return { guessWord, answer};
+    return guessWordArray.map((letter, index) => ({
+        letter,
+        result: letter === answerArray[index] ? 'correct' : 'incorrect'
+    }));
+    
 }
