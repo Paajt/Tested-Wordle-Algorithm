@@ -11,7 +11,7 @@ Test #Number(Letter)
 [x] #4 Only use alphabetical characters in answer, no special characters.
 [x] #5 Convert every letter to an array.
 [] #6 Compare each letter in guessed word to each letter in the answer.
-    [] #6a - if the letter is correct and on the correct slot, mark as 'correct'.
+    [x] #6a - if the letter is correct and on the correct slot, mark as 'correct'.
     [] #6b - if the letter is incorrect, mark as 'incorrect'.
     [] #6c - if the letter is correct but on the wrong slot, mark as 'misplaced'.
 [] #7 if guessed letter occur more times than in the answer.
@@ -30,7 +30,7 @@ Test #Number(Letter)
 describe('feedback()', () => {
     test('#1 Error message if guessed word and answer have different lengths', () => {
         const result = feedback('CYKLA', 'CYKLADE');
-        
+
         expect(result).toBe('Words must have the same length');
     });
 
@@ -42,8 +42,8 @@ describe('feedback()', () => {
     });
 
     test('#3 Remove invalid characters from guessWord', () => {
-        const guessWordresult = feedback('cykl#', 'cykl');
-        const letters = guessWordresult.map(item => item.letter).join('');
+        const result = feedback('cykl#', 'cykl');
+        const letters = result.map(item => item.letter).join('');
        
         expect(letters).toEqual('CYKL');
     });
@@ -61,5 +61,21 @@ describe('feedback()', () => {
         expect(Array.isArray(result)).toBe(true);
         expect(result.length).toBe(5);
         expect(result[0]).toHaveProperty('letter');
+    });
+
+    test('#6a Mark letters as correct when they match at the same position', () => {
+        const result = feedback('CYKLA', 'CIRKA');
+        const correctLetters = result.filter(item => item.result === 'correct');
+
+        expect(correctLetters.length).toBe(2);
+        expect(correctLetters[0].letter).toBe('C');
+        expect(correctLetters[1].letter).toBe('A');
+    });
+
+    test('#6b Mark letters as incorrect when not matched at all', () => {
+        const result = feedback('XYZXYZ', 'ABCDEF');
+        const incorrectLetters = result.filter(item => item.result === 'incorrect');
+
+        expect(incorrectLetters.length).toBe(6);
     });
 });
