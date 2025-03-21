@@ -28,9 +28,10 @@ Test #Number(Letter)
 */
 
 describe('feedback()', () => {
-    test('#1 Throw an error if guessed word and answer have different lengths', () => {
+    test('#1 Error message if guessed word and answer have different lengths', () => {
+        const result = feedback('CYKLA', 'CYKLADE');
         
-        expect(() => feedback('CYKLA', 'CYKLADE')).toThrow('Words must be the same length');
+        expect(result).toBe('Words must have the same length');
     });
 
     test('#2 Convert guessed word and answer to uppercase', () => {
