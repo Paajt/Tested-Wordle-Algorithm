@@ -4,15 +4,23 @@ export default function feedback(guessWord, answer) {
     const answerClean = answer.replace(/\W/g, '').toUpperCase(); 
 
     if (guessWordClean.length !== answerClean.length) {
+        console.log('Words must have the same length');
         return 'Words must have the same length';
     }
 
-    const guessWordArray = guessWordClean.split('');
-    const answerArray = answerClean.split('');
+    const guessWordLetters = guessWordClean.split('');
+    const answerLetters = answerClean.split('');
 
-    return guessWordArray.map((letter, index) => ({
-        letter,
-        result: letter === answerArray[index] ? 'correct' : 'incorrect'
-    }));
-    
+    const result = guessWordLetters.map((letter, index) => {
+        if (letter === answerLetters[index]) {
+            return { letter, result: 'correct'};
+        } else {
+            return { letter, result: 'incorrect'};
+        }
+    });
+    console.log(result);
+
+    return result;
 }
+
+feedback('Cyklade', 'cirka');
